@@ -3,31 +3,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="dark">
 <meta name="description" content="yagatan: vibe coder из Грузии. Био, навыки и живой статус в Discord.">
 <title>yagatan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Montserrat:wght@600;700;800&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-  /* Розово-синее био со стеклянными карточками и выделенной шапкой. */
+  /* Тёмное био со стеклянными карточками и выделенной шапкой. */
   :root {
-    color-scheme: light;
-    --bg: #edf2ff;
-    --ink: #0f2a3a;
-    --ink-soft: #4a6678;
-    --sky: #0593C6;
-    --sky-ink: #05729b;
-    --violet: #6a7ae6;
-    --pink: #DB3996;
-    --pink-ink: #c4287f;
-    --card: rgba(255, 255, 255, 0.78);
-    --card-edge: rgba(5, 147, 198, 0.18);
-    --card-shadow: rgba(5, 147, 198, 0.32);
-    --glow-a: rgba(5, 147, 198, 0.17);
-    --glow-b: rgba(219, 57, 150, 0.13);
-    --code-bg: #f3f9fd;
-    --code-dim: #7a93a4;
+    color-scheme: dark;
+    --bg: #080711;
+    --ink: #f6f4ff;
+    --ink-soft: #d3cfe2;
+    --sky: #c6ceff;
+    --sky-ink: #baccff;
+    --violet: #f7f5ff;
+    --pink: #e8c6e9;
+    --pink-ink: #ebc5ea;
+    --card: rgba(19, 17, 30, .91);
+    --card-edge: rgba(220, 214, 255, .23);
+    --card-shadow: rgba(0, 0, 0, .65);
+    --glow-a: rgba(170, 174, 229, .07);
+    --glow-b: rgba(216, 185, 235, .04);
+    --code-bg: #14131e;
+    --code-dim: #b2adc5;
 
     --font-display: "Outfit", "Montserrat", "Segoe UI", system-ui, sans-serif;
     --font-body: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -51,19 +51,25 @@
     overflow-x: hidden;
   }
 
-  /* Розово-синий фон с плавным движением света */
-  .wash {
-    position: fixed; inset: -6%; z-index: 0; pointer-events: none;
-    background:
-      radial-gradient(ellipse at 8% 8%, rgba(63, 150, 255, .62), transparent 58%),
-      radial-gradient(ellipse at 94% 34%, rgba(255, 100, 190, .60), transparent 58%),
-      radial-gradient(ellipse at 15% 100%, rgba(95, 161, 255, .48), transparent 58%),
-      linear-gradient(135deg, #e2f0ff 0%, #ede7ff 48%, #ffd9ee 100%);
-    animation: ambient 20s ease-in-out infinite alternate;
+  /* Две складки атласа. Холст рисуется один раз, перелив движется через CSS. */
+  .wash { position: fixed; inset: 0; overflow: hidden; pointer-events: none; background: #090812; }
+  .silk {
+    position: absolute; top: -8%; left: 50%; width: max(118%, 600px); height: 116%;
+    transform: translateX(-50%);
+    animation: silk-drift 16s ease-in-out infinite alternate;
   }
-  @keyframes ambient {
-    from { transform: translate3d(-1%, -1%, 0) scale(1); }
-    to { transform: translate3d(1%, 1%, 0) scale(1.04); }
+  .wash::after {
+    content: ""; position: absolute; inset: -30%; mix-blend-mode: soft-light;
+    background: linear-gradient(113deg, transparent 15%, #9690d4 32%, #fff 45%, #55516d 60%, transparent 75%);
+    animation: silk-glint 9s ease-in-out infinite alternate;
+  }
+  @keyframes silk-drift {
+    from { transform: translate(-52%, -1.5%) rotate(-2deg); }
+    to { transform: translate(-48%, 2%) rotate(2deg) scale(1.05); }
+  }
+  @keyframes silk-glint {
+    from { transform: translateX(-19%); opacity: .38; }
+    to { transform: translateX(19%); opacity: .85; }
   }
 
   .page { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
@@ -76,7 +82,7 @@
     display: flex; align-items: center; gap: 10px;
     max-width: calc(100vw - 24px);
     padding: 6px 18px 6px 6px; border-radius: 999px;
-    background: rgba(255, 255, 255, 0.82);
+    background: rgba(20, 18, 30, .92);
     -webkit-backdrop-filter: blur(16px) saturate(150%);
     backdrop-filter: blur(16px) saturate(150%);
     border: 1px solid var(--card-edge);
@@ -92,7 +98,7 @@
   .dc-avatar { position: relative; width: 42px; height: 42px; flex: none; }
   .dc-avatar img, .dc-fallback { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
   .dc-fallback {
-    display: grid; place-items: center; color: #fff;
+    display: grid; place-items: center; color: #201c2b;
     font-family: var(--font-display); font-weight: 800; font-size: 19px;
     background: linear-gradient(135deg, var(--sky), var(--pink));
   }
@@ -109,20 +115,17 @@
     position: relative;
     padding: clamp(24px, 5vw, 42px);
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, .85);
+    border: 1px solid var(--card-edge);
     border-radius: 32px;
-    background:
-      radial-gradient(ellipse at 100% 0%, rgba(255, 106, 188, .28), transparent 62%),
-      radial-gradient(ellipse at 0% 100%, rgba(62, 153, 255, .24), transparent 62%),
-      rgba(255, 255, 255, .60);
-    box-shadow: 0 24px 70px -30px rgba(76, 107, 200, .40), inset 0 1px 0 rgba(255, 255, 255, .9);
+    background: linear-gradient(110deg, rgba(15, 13, 25, .94), rgba(31, 27, 47, .79) 65%, rgba(49, 42, 68, .55));
+    box-shadow: 0 20px 55px -28px var(--card-shadow), inset 0 1px rgba(255, 255, 255, .16);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
   }
   .intro::after {
     content: ""; position: absolute; right: 28px; top: 30px;
     width: 12px; height: 12px; border-radius: 50%;
-    background: #f45bb2; box-shadow: 0 0 0 7px rgba(244, 91, 178, .12), 0 0 28px rgba(244, 91, 178, .55);
+    background: #e2dcff; box-shadow: 0 0 15px #b5a5e9;
   }
   .intro-note {
     max-width: 36ch; margin: 18px 0 0;
@@ -130,7 +133,7 @@
   }
   .chip {
     display: inline-block; font-family: var(--font-mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
-    color: #a71f70; background: rgba(255, 255, 255, .68); padding: 4px 14px; border-radius: 999px; border: 1px solid rgba(219, 57, 150, .28); margin-bottom: 18px;
+    color: #efdefc; background: rgba(34, 29, 47, .78); padding: 4px 14px; border-radius: 999px; border: 1px solid var(--card-edge); margin-bottom: 18px;
   }
   h1 {
     margin: 0; width: fit-content; max-width: 100%; font-family: var(--font-display); font-weight: 800;
@@ -163,14 +166,13 @@
   .bio {
     border: 1px solid transparent;
     background:
-      linear-gradient(115deg, rgba(255, 255, 255, .93), rgba(246, 249, 255, .94)) padding-box,
-      linear-gradient(120deg, #4da8ff, #b597ee 50%, #fa77bd) border-box;
-    box-shadow: -12px 18px 45px -32px rgba(43, 132, 233, .7), 16px 20px 50px -32px rgba(222, 67, 159, .6);
+      linear-gradient(115deg, #1d1b2b, #171522) padding-box,
+      linear-gradient(125deg, #c6c5df, #4d475d 52%, #ab9bbe) border-box;
   }
   .bio h2 { display: flex; align-items: center; gap: 12px; }
   .bio h2::before {
     content: ""; width: 6px; height: 24px; flex: none; border-radius: 999px;
-    background: linear-gradient(#489fff, #f365b3);
+    background: linear-gradient(#c6ceff, #e8c6e9);
   }
   .bio strong {
     font-weight: 600;
@@ -211,13 +213,9 @@
   .chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
   .chips li {
     padding: 9px 18px; border-radius: 999px; font-weight: 500; font-size: 15.5px; line-height: 1.3;
-    background: rgba(255, 255, 255, 0.85); border: 1px solid var(--card-edge);
+    background: #252330; border: 1px solid var(--card-edge);
   }
-  .chips li:nth-child(3n+1) { border-color: rgba(5, 147, 198, 0.4); }
-  .chips li:nth-child(3n+2) { border-color: rgba(106, 122, 230, 0.45); }
-  .chips li:nth-child(3n)   { border-color: rgba(219, 57, 150, 0.4); }
-
-  footer { text-align: center; padding-top: 18px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); }
+  footer { justify-self: center; background: #14121e; border-radius: 999px; padding: 6px 14px; text-align: center; font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); }
 
   /* ---------- Наклон и свечение под курсором ---------- */
   .tilt {
@@ -257,7 +255,7 @@
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .wash, .intro, .page > .card, .duo > .card { animation: none; }
+    .silk, .wash::after, .intro, .page > .card, .duo > .card { animation: none; }
     .tilt, .tilt:hover { --lift: 0px; transition: none; }
     .dc[href] { transition: none; }
   }
@@ -265,7 +263,7 @@
 </head>
 <body>
 
-<div class="wash" aria-hidden="true"></div>
+<div class="wash" aria-hidden="true"><canvas class="silk" width="1120" height="760"></canvas></div>
 
 <a class="dc" id="dc" data-status="offline" aria-label="Статус в Discord">
   <span class="dc-avatar">
@@ -337,6 +335,37 @@
 </main>
 
 <script>
+  /* Буфер одинаков для всех экранов. Профиль яркости задаёт блеск вдоль складки. */
+  (function drawSilk() {
+    const canvas = document.querySelector(".silk");
+    const context = canvas.getContext("2d");
+    if (!context) return;
+    const { width, height } = canvas;
+    context.fillStyle = "#090812";
+    context.fillRect(0, 0, width, height);
+
+    function ribbon(column, center, spread, stops) {
+      const gradient = context.createLinearGradient(0, (center - spread) * height, 0, (center + spread) * height);
+      for (const [position, color] of stops) gradient.addColorStop(position, color);
+      context.fillStyle = gradient;
+      context.fillRect(column, 0, 1, height);
+    }
+
+    const silver = [[0, "transparent"], [.18, "#100e22"], [.31, "#45415f"],
+      [.41, "#a19bbf"], [.48, "#ede9fc"], [.54, "#d4d2ed"],
+      [.66, "#777799"], [.80, "#25273d"], [1, "transparent"]];
+    const violet = [[0, "transparent"], [.26, "#242336"], [.44, "#716b89"],
+      [.53, "#c9c5df"], [.62, "#857e9f"], [.81, "#282438"], [1, "transparent"]];
+
+    for (let column = 0; column < width; column++) {
+      const x = column / width;
+      const bend = 1 / (1 + Math.exp(-17 * (x - .53)));
+      ribbon(column, -.13 + .46 * x - .055 * Math.sin(6 * x), .135, violet);
+      ribbon(column, .48 + .6 * bend + .04 * Math.sin(9 * x + .6),
+        .18 + .09 * Math.exp(-26 * (x - .54) ** 2), silver);
+    }
+  })();
+
   /* ---------- Discord: аватар и статус через Lanyard ----------
      1. В Discord включи режим разработчика (Настройки > Расширенные), ПКМ по себе > Копировать ID пользователя.
      2. Зайди на сервер Lanyard: https://discord.gg/lanyard (он отдаёт публичный статус по ID).
