@@ -31,6 +31,8 @@
     --code-dim: #7fa6b8;
     --code-key: #ff7ac2;
     --code-str: #7fdcf5;
+    --glow-a: rgba(255, 255, 255, 0.9);
+    --glow-b: rgba(219, 57, 150, 0.2);
 
     --font-display: "Unbounded", "Arial Black", system-ui, sans-serif;
     --font-body: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -46,6 +48,8 @@
       --glass-edge: rgba(150, 215, 240, 0.22);
       --glass-shadow: rgba(0, 0, 0, 0.55);
       --blob-opacity: 0.4;
+      --glow-a: rgba(143, 220, 245, 0.34);
+      --glow-b: rgba(219, 57, 150, 0.24);
       --code-bg: rgba(3, 14, 22, 0.78);
       color-scheme: dark;
     }
@@ -59,6 +63,8 @@
     --glass-edge: rgba(150, 215, 240, 0.22);
     --glass-shadow: rgba(0, 0, 0, 0.55);
     --blob-opacity: 0.4;
+    --glow-a: rgba(143, 220, 245, 0.34);
+    --glow-b: rgba(219, 57, 150, 0.24);
     --code-bg: rgba(3, 14, 22, 0.78);
     color-scheme: dark;
   }
@@ -102,6 +108,22 @@
     border-radius: 26px;
     box-shadow: 0 24px 50px -24px var(--glass-shadow);
   }
+
+  /* Наклон и свечение под курсором (значения --rx, --ry, --mx, --my ставит скрипт внизу) */
+  .tilt {
+    position: relative;
+    --rx: 0deg; --ry: 0deg; --lift: 0px; --mx: 50%; --my: 50%;
+    transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift));
+    transition: transform .6s cubic-bezier(.34, 1.56, .64, 1);
+    will-change: transform;
+  }
+  .tilt:hover { --lift: -4px; transition: transform .12s ease-out; }
+  .tilt::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: radial-gradient(280px circle at var(--mx) var(--my), var(--glow-a), var(--glow-b) 42%, transparent 72%);
+    opacity: 0; transition: opacity .35s ease;
+  }
+  .tilt:hover::after { opacity: 1; }
 
   /* Навигация */
   .nav { justify-self: center; display: flex; gap: 4px; padding: 6px; border-radius: 999px; max-width: 100%; }
@@ -166,8 +188,7 @@
   }
 
   /* Биография */
-  .bio { padding: 34px 32px 38px; transition: transform .35s cubic-bezier(.34, 1.56, .64, 1); }
-  .bio:hover { transform: translateY(-4px); }
+  .bio { padding: 34px 32px 38px; }
   .bio h2 { margin-bottom: 20px; }
   .bio p { margin: 0 0 16px; max-width: 68ch; font-size: 1.08rem; color: var(--ink); text-wrap: pretty; }
   .bio p:last-child { margin-bottom: 0; }
@@ -175,9 +196,8 @@
 
   /* Навыки */
   .skills { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
-  .skill { grid-column: span 2; padding: 26px 24px 28px; display: flex; flex-direction: column; gap: 22px; min-width: 0; transition: transform .35s cubic-bezier(.34, 1.56, .64, 1); }
+  .skill { grid-column: span 2; padding: 26px 24px 28px; display: flex; flex-direction: column; gap: 22px; min-width: 0; }
   .skill:nth-child(n+4) { grid-column: span 3; }
-  .skill:hover { transform: translateY(-4px); }
   .tag {
     align-self: flex-start; font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .08em;
     text-transform: uppercase; color: var(--pink-ink);
@@ -187,8 +207,7 @@
 
   /* Опыт и обучение */
   .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  .info { padding: 30px 28px 32px; min-width: 0; transition: transform .35s cubic-bezier(.34, 1.56, .64, 1); }
-  .info:hover { transform: translateY(-4px); }
+  .info { padding: 30px 28px 32px; min-width: 0; }
   .info h2 { font-size: 1.35rem; margin-bottom: 18px; }
   .big {
     font-family: var(--font-display); font-weight: 700; margin: 0 0 6px;
@@ -220,7 +239,8 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .blob, .hero > *, .bio, .skill, .info { animation: none; }
-    .btn, .bio, .skill, .info { transition: none; }
+    .btn { transition: none; }
+    .tilt, .tilt:hover { --lift: 0px; transition: none; }
   }
 </style>
 </head>
@@ -252,7 +272,7 @@
       </div>
     </div>
 
-    <div class="glass code" role="img" aria-label="Пример кода на Python: цикл обучения">
+    <div class="glass tilt code" data-tilt="6" role="img" aria-label="Пример кода на Python: цикл обучения">
       <div class="code-head"><b>yagatan.py</b><span>python · месяц 1</span></div>
 <pre><span class="c-dim"># вайб-кодинг: я думаю, ИИ помогает</span>
 <span class="c-key">skills</span> = [
@@ -266,7 +286,7 @@
     </div>
   </header>
 
-  <section class="glass bio" id="bio">
+  <section class="glass tilt bio" id="bio" data-tilt="2.5">
     <h2>Биография</h2>
     <p class="first">Я родом из Грузии. Интересуюсь программированием и современными технологиями. В течение месяца изучал Python и получил базовое представление о языке, логике программ и процессе разработки.</p>
     <p>Мне нравится находить неординарные решения и смотреть на задачи с разных сторон. В работе ценю свободу мышления, эксперименты и возможность создавать что-то новое с помощью кода и ИИ-инструментов.</p>
@@ -276,20 +296,20 @@
   <section id="skills">
     <h2>Навыки</h2>
     <div class="skills">
-      <article class="glass skill"><span class="tag">python</span><p>Базовые знания Python</p></article>
-      <article class="glass skill"><span class="tag">ai</span><p>Вайб-кодинг и работа с ИИ-инструментами</p></article>
-      <article class="glass skill"><span class="tag">search</span><p>Поиск информации и решений</p></article>
-      <article class="glass skill"><span class="tag">logic</span><p>Базовое понимание логики программ</p></article>
-      <article class="glass skill"><span class="tag">growth</span><p>Готовность учиться и осваивать новые технологии</p></article>
+      <article class="glass tilt skill"><span class="tag">python</span><p>Базовые знания Python</p></article>
+      <article class="glass tilt skill"><span class="tag">ai</span><p>Вайб-кодинг и работа с ИИ-инструментами</p></article>
+      <article class="glass tilt skill"><span class="tag">search</span><p>Поиск информации и решений</p></article>
+      <article class="glass tilt skill"><span class="tag">logic</span><p>Базовое понимание логики программ</p></article>
+      <article class="glass tilt skill"><span class="tag">growth</span><p>Готовность учиться и осваивать новые технологии</p></article>
     </div>
   </section>
 
   <div class="pair">
-    <section class="glass info" id="experience">
+    <section class="glass tilt info" id="experience">
       <h2>Опыт</h2>
       <p class="main">Коммерческого опыта пока нет.</p>
     </section>
-    <section class="glass info" id="education">
+    <section class="glass tilt info" id="education">
       <h2>Обучение</h2>
       <p class="big">1 месяц</p>
       <p class="main">Самостоятельное изучение Python</p>
@@ -300,6 +320,29 @@
 </div>
 
 <script>
+  /* Наклон карточек и свечение под курсором (только для мыши) */
+  (function () {
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.tilt').forEach(function (el) {
+      var max = parseFloat(el.getAttribute('data-tilt')) || 8;
+      el.addEventListener('pointermove', function (e) {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        var r = el.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width;
+        var y = (e.clientY - r.top) / r.height;
+        el.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+        el.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+        if (reduce) return;
+        el.style.setProperty('--ry', ((x - 0.5) * 2 * max).toFixed(2) + 'deg');
+        el.style.setProperty('--rx', ((0.5 - y) * 2 * max).toFixed(2) + 'deg');
+      });
+      el.addEventListener('pointerleave', function () {
+        el.style.setProperty('--rx', '0deg');
+        el.style.setProperty('--ry', '0deg');
+      });
+    });
+  })();
+
   /* Подсветка текущего раздела в навигации */
   (function () {
     var links = document.querySelectorAll('.nav a');
