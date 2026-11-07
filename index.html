@@ -8,7 +8,7 @@
 <title>yagatan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Montserrat:wght@600;700;800&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@700&family=Outfit:wght@600;700;800&family=Montserrat:wght@600;700;800&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
   /* Тёмное био со стеклянными карточками и выделенной шапкой. */
   :root {
@@ -47,7 +47,7 @@
     min-height: 100vh;
     padding-left: max(16px, env(safe-area-inset-left, 0px));
     padding-right: max(16px, env(safe-area-inset-right, 0px));
-    padding-block: 96px 48px;
+    padding-block: 78px 48px;
     overflow-x: hidden;
   }
 
@@ -72,7 +72,7 @@
     to { transform: translateX(19%); opacity: .85; }
   }
 
-  .page { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
+  .page { position: relative; z-index: 1; width: 100%; min-height: calc(100svh - 126px); align-content: start; display: grid; gap: 18px; }
 
   /* ---------- Плашка Discord ---------- */
   .dc {
@@ -122,7 +122,7 @@
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
   }
-  .intro::after {
+  .intro::before {
     content: ""; position: absolute; right: 28px; top: 30px;
     width: 12px; height: 12px; border-radius: 50%;
     background: #e2dcff; box-shadow: 0 0 15px #b5a5e9;
@@ -136,9 +136,11 @@
     color: #efdefc; background: rgba(34, 29, 47, .78); padding: 4px 14px; border-radius: 999px; border: 1px solid var(--card-edge); margin-bottom: 18px;
   }
   h1 {
-    margin: 0; width: fit-content; max-width: 100%; font-family: var(--font-display); font-weight: 800;
-    font-size: clamp(3rem, 14.5vw, 7.4rem); line-height: 1; letter-spacing: -0.045em;
-    background: linear-gradient(95deg, var(--sky) 0%, var(--violet) 52%, var(--pink) 100%);
+    margin: 0; width: fit-content; max-width: 100%; font-family: "DynaPuff", var(--font-display); font-weight: 700;
+    transform: skewX(-6deg); transform-origin: left bottom;
+    padding-inline: .07em .1em;
+    font-size: clamp(3rem, 12vw, 9rem); line-height: 1; letter-spacing: -0.045em;
+    background: linear-gradient(105deg, #a8d1ff 5%, #c2afff 54%, #e6a5d8 100%);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent; color: transparent;
     padding-bottom: .06em;
@@ -221,11 +223,13 @@
   .tilt {
     position: relative;
     --rx: 0deg; --ry: 0deg; --lift: 0px; --mx: 50%; --my: 50%;
-    transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift));
+    transform: perspective(max(1050px, 140vw)) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift));
     transition: transform .6s cubic-bezier(.34, 1.56, .64, 1);
     will-change: transform;
   }
-  .tilt:hover { --lift: -4px; transition: transform .12s ease-out; }
+  @media (any-hover: hover) and (any-pointer: fine) {
+    .tilt:hover { --lift: -6px; z-index: 2; transition: transform .14s ease-out; }
+  }
   .tilt::after {
     content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
     background: radial-gradient(300px circle at var(--mx) var(--my), var(--glow-a), var(--glow-b) 45%, transparent 72%);
@@ -243,6 +247,23 @@
 
   a:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
 
+  @media (min-width: 960px) {
+    body { padding-inline: clamp(24px, 2.6vw, 56px); }
+    .intro {
+      display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+      align-content: center; column-gap: 5vw; min-height: clamp(265px, 32vh, 420px);
+    }
+    .chip { grid-area: 1 / 1; justify-self: start; align-self: end; }
+    h1 { grid-area: 2 / 1 / 4 / 2; align-self: center; }
+    .role { grid-area: 2 / 2; align-self: end; }
+    .intro-note { grid-area: 3 / 2; margin-top: 6px; }
+    .bio {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0 clamp(20px, 3vw, 64px); padding: clamp(25px, 3vw, 48px);
+    }
+    .bio h2 { grid-column: 1 / -1; }
+    .bio p { margin: 0; }
+  }
   @media (max-width: 720px) {
     body { padding-block: 88px 40px; }
     .duo { grid-template-columns: minmax(0, 1fr); }
@@ -256,7 +277,7 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .silk, .wash::after, .intro, .page > .card, .duo > .card { animation: none; }
-    .tilt, .tilt:hover { --lift: 0px; transition: none; }
+    .tilt, .tilt:hover { transform: none; transition: none; }
     .dc[href] { transition: none; }
   }
 </style>
@@ -278,14 +299,14 @@
 </a>
 
 <main class="page">
-  <header class="intro">
+  <header class="intro tilt" data-tilt="8">
     <span class="chip">bio</span>
     <h1>yagatan</h1>
     <p class="role">Vibe Coder · Грузия</p>
     <p class="intro-note">Код. Природа. Неординарные решения.</p>
   </header>
 
-  <section class="card tilt bio" data-tilt="2.5">
+  <section class="card tilt bio" data-tilt="10">
     <h2>Обо мне</h2>
     <p class="first">Я родом из <strong>Грузии</strong>. Интересуюсь программированием и современными технологиями. В течение месяца изучал <strong>Python</strong> и получил базовое представление о языке, логике программ и процессе разработки.</p>
     <p>Мне нравится находить <strong>неординарные решения</strong> и смотреть на задачи с разных сторон. В работе ценю свободу мышления, эксперименты и возможность создавать что-то новое с помощью кода и ИИ-инструментов.</p>
@@ -293,7 +314,7 @@
   </section>
 
   <div class="duo">
-    <div class="card tilt code" data-tilt="6" role="img" aria-label="Визитка в виде кода на Python">
+    <div class="card tilt code" data-tilt="15" role="img" aria-label="Визитка в виде кода на Python">
       <div class="code-head"><b>bio.py</b><span>python</span></div>
 <pre><span class="c-key">bio</span> = {
     <span class="c-str">"name"</span>: <span class="c-str">"yagatan"</span>,
@@ -305,7 +326,7 @@
 <span class="c-dim"># вайб-кодинг</span></pre>
     </div>
 
-    <section class="card tilt now" data-tilt="6">
+    <section class="card tilt now" data-tilt="15">
       <h2>Сейчас</h2>
       <dl>
         <div>
@@ -320,7 +341,7 @@
     </section>
   </div>
 
-  <section class="card tilt" data-tilt="3">
+  <section class="card tilt" data-tilt="9">
     <h2>Навыки</h2>
     <ul class="chips">
       <li>Базовые знания Python</li>
@@ -453,8 +474,8 @@
       card.addEventListener("pointermove", function (e) {
         if (e.pointerType && e.pointerType !== "mouse") return;
         var r = card.getBoundingClientRect();
-        var x = (e.clientX - r.left) / r.width;
-        var y = (e.clientY - r.top) / r.height;
+        var x = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+        var y = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height));
         card.style.setProperty("--mx", (x * 100).toFixed(1) + "%");
         card.style.setProperty("--my", (y * 100).toFixed(1) + "%");
         if (reduce) return;
