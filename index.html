@@ -10,11 +10,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Montserrat:wght@600;700;800&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-  /* Layout: белая страница-био в одну колонку. Сверху имя огромным градиентным шрифтом,
-     ниже карточки: обо мне, код-визитка, сейчас, навыки. В правом верхнем углу плашка Discord. */
+  /* Розово-синее био со стеклянными карточками и выделенной шапкой. */
   :root {
     color-scheme: light;
-    --bg: #ffffff;
+    --bg: #edf2ff;
     --ink: #0f2a3a;
     --ink-soft: #4a6678;
     --sky: #0593C6;
@@ -52,13 +51,19 @@
     overflow-x: hidden;
   }
 
-  /* Мягкая подсветка по углам на белом */
+  /* Розово-синий фон с плавным движением света */
   .wash {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    position: fixed; inset: -6%; z-index: 0; pointer-events: none;
     background:
-      radial-gradient(60vmax 44vmax at 0% 0%, rgba(5, 147, 198, 0.16), transparent 62%),
-      radial-gradient(52vmax 40vmax at 100% 28%, rgba(219, 57, 150, 0.12), transparent 62%),
-      radial-gradient(64vmax 40vmax at 25% 100%, rgba(106, 122, 230, 0.11), transparent 62%);
+      radial-gradient(ellipse at 8% 8%, rgba(63, 150, 255, .62), transparent 58%),
+      radial-gradient(ellipse at 94% 34%, rgba(255, 100, 190, .60), transparent 58%),
+      radial-gradient(ellipse at 15% 100%, rgba(95, 161, 255, .48), transparent 58%),
+      linear-gradient(135deg, #e2f0ff 0%, #ede7ff 48%, #ffd9ee 100%);
+    animation: ambient 20s ease-in-out infinite alternate;
+  }
+  @keyframes ambient {
+    from { transform: translate3d(-1%, -1%, 0) scale(1); }
+    to { transform: translate3d(1%, 1%, 0) scale(1.04); }
   }
 
   .page { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
@@ -100,14 +105,36 @@
   .dc-status { font-size: 12.5px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 210px; }
 
   /* ---------- Шапка ---------- */
-  .intro { padding: 8px 4px 14px; }
+  .intro {
+    position: relative;
+    padding: clamp(24px, 5vw, 42px);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, .85);
+    border-radius: 32px;
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(255, 106, 188, .28), transparent 62%),
+      radial-gradient(ellipse at 0% 100%, rgba(62, 153, 255, .24), transparent 62%),
+      rgba(255, 255, 255, .60);
+    box-shadow: 0 24px 70px -30px rgba(76, 107, 200, .40), inset 0 1px 0 rgba(255, 255, 255, .9);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+  .intro::after {
+    content: ""; position: absolute; right: 28px; top: 30px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: #f45bb2; box-shadow: 0 0 0 7px rgba(244, 91, 178, .12), 0 0 28px rgba(244, 91, 178, .55);
+  }
+  .intro-note {
+    max-width: 36ch; margin: 18px 0 0;
+    font-size: clamp(.95rem, 3vw, 1.08rem); color: var(--ink-soft);
+  }
   .chip {
     display: inline-block; font-family: var(--font-mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--pink-ink); padding: 4px 14px; border-radius: 999px; border: 1px solid currentColor; margin-bottom: 14px;
+    color: #a71f70; background: rgba(255, 255, 255, .68); padding: 4px 14px; border-radius: 999px; border: 1px solid rgba(219, 57, 150, .28); margin-bottom: 18px;
   }
   h1 {
-    margin: 0; font-family: var(--font-display); font-weight: 800;
-    font-size: clamp(3.6rem, 16vw, 7.4rem); line-height: 1; letter-spacing: -0.045em;
+    margin: 0; width: fit-content; max-width: 100%; font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(3rem, 14.5vw, 7.4rem); line-height: 1; letter-spacing: -0.045em;
     background: linear-gradient(95deg, var(--sky) 0%, var(--violet) 52%, var(--pink) 100%);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent; color: transparent;
@@ -132,6 +159,22 @@
   h2 {
     margin: 0 0 16px; font-family: var(--font-display); font-weight: 700;
     font-size: 1.35rem; letter-spacing: -0.015em;
+  }
+  .bio {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(115deg, rgba(255, 255, 255, .93), rgba(246, 249, 255, .94)) padding-box,
+      linear-gradient(120deg, #4da8ff, #b597ee 50%, #fa77bd) border-box;
+    box-shadow: -12px 18px 45px -32px rgba(43, 132, 233, .7), 16px 20px 50px -32px rgba(222, 67, 159, .6);
+  }
+  .bio h2 { display: flex; align-items: center; gap: 12px; }
+  .bio h2::before {
+    content: ""; width: 6px; height: 24px; flex: none; border-radius: 999px;
+    background: linear-gradient(#489fff, #f365b3);
+  }
+  .bio strong {
+    font-weight: 600;
+    background: linear-gradient(transparent 65%, rgba(112, 178, 255, .25) 65%);
   }
   .bio p { margin: 0 0 14px; max-width: 64ch; text-wrap: pretty; }
   .bio p:last-child { margin-bottom: 0; }
@@ -214,7 +257,7 @@
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .intro, .page > .card, .duo > .card { animation: none; }
+    .wash, .intro, .page > .card, .duo > .card { animation: none; }
     .tilt, .tilt:hover { --lift: 0px; transition: none; }
     .dc[href] { transition: none; }
   }
@@ -241,13 +284,14 @@
     <span class="chip">bio</span>
     <h1>yagatan</h1>
     <p class="role">Vibe Coder · Грузия</p>
+    <p class="intro-note">Код. Природа. Неординарные решения.</p>
   </header>
 
   <section class="card tilt bio" data-tilt="2.5">
     <h2>Обо мне</h2>
-    <p class="first">Я родом из Грузии. Интересуюсь программированием и современными технологиями. В течение месяца изучал Python и получил базовое представление о языке, логике программ и процессе разработки.</p>
-    <p>Мне нравится находить неординарные решения и смотреть на задачи с разных сторон. В работе ценю свободу мышления, эксперименты и возможность создавать что-то новое с помощью кода и ИИ-инструментов.</p>
-    <p>В свободное время люблю природу: она помогает мне отдыхать, находить вдохновение и новые идеи. Сейчас я продолжаю развиваться в программировании, изучать новые технологии и набираться практического опыта.</p>
+    <p class="first">Я родом из <strong>Грузии</strong>. Интересуюсь программированием и современными технологиями. В течение месяца изучал <strong>Python</strong> и получил базовое представление о языке, логике программ и процессе разработки.</p>
+    <p>Мне нравится находить <strong>неординарные решения</strong> и смотреть на задачи с разных сторон. В работе ценю свободу мышления, эксперименты и возможность создавать что-то новое с помощью кода и ИИ-инструментов.</p>
+    <p>В свободное время люблю <strong>природу</strong>: она помогает мне отдыхать, находить вдохновение и новые идеи. Сейчас я продолжаю развиваться в программировании, изучать новые технологии и набираться практического опыта.</p>
   </section>
 
   <div class="duo">
