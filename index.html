@@ -3,113 +3,180 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<meta name="color-scheme" content="light">
+<meta name="description" content="yagatan: vibe coder из Грузии. Био, навыки и живой статус в Discord.">
 <title>yagatan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Montserrat:wght@600;700;800&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-  /* Layout: матовые стеклянные карточки поверх размытых пятен небесно-голубого и розового.
-     Герой слева, окно с кодом справа, ниже сетка навыков, внизу опыт и обучение. */
+  /* Layout: белая страница-био в одну колонку. Сверху имя огромным градиентным шрифтом,
+     ниже карточки: обо мне, код-визитка, сейчас, навыки. В правом верхнем углу плашка Discord. */
   :root {
-    --bg: #e9f6fb;
-    --ink: #0b2a3d;
-    --ink-soft: #3d5d70;
+    color-scheme: light;
+    --bg: #ffffff;
+    --ink: #0f2a3a;
+    --ink-soft: #4a6678;
     --sky: #0593C6;
-    --white: #FCFFFF;
+    --sky-ink: #05729b;
+    --violet: #6a7ae6;
     --pink: #DB3996;
-    --pink-ink: #b3287d;
-    --glass: rgba(252, 255, 255, 0.55);
-    --glass-edge: rgba(252, 255, 255, 0.85);
-    --glass-shadow: rgba(5, 147, 198, 0.28);
-    --blob-sky: #0593C6;
-    --blob-pink: #DB3996;
-    --blob-light: #8fdcf5;
-    --blob-opacity: 0.55;
-    --code-bg: rgba(11, 42, 61, 0.88);
-    --code-ink: #e6f6fc;
-    --code-dim: #7fa6b8;
-    --code-key: #ff7ac2;
-    --code-str: #7fdcf5;
-    --glow-a: rgba(255, 255, 255, 0.9);
-    --glow-b: rgba(219, 57, 150, 0.2);
+    --pink-ink: #c4287f;
+    --card: rgba(255, 255, 255, 0.78);
+    --card-edge: rgba(5, 147, 198, 0.18);
+    --card-shadow: rgba(5, 147, 198, 0.32);
+    --glow-a: rgba(5, 147, 198, 0.17);
+    --glow-b: rgba(219, 57, 150, 0.13);
+    --code-bg: #f3f9fd;
+    --code-dim: #7a93a4;
 
-    --font-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+    --font-display: "Outfit", "Montserrat", "Segoe UI", system-ui, sans-serif;
     --font-body: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #06141d;
-      --ink: #eaf7fc;
-      --ink-soft: #a6c5d4;
-      --pink-ink: #ff7ac2;
-      --glass: rgba(14, 40, 56, 0.5);
-      --glass-edge: rgba(150, 215, 240, 0.22);
-      --glass-shadow: rgba(0, 0, 0, 0.55);
-      --blob-opacity: 0.4;
-      --glow-a: rgba(143, 220, 245, 0.34);
-      --glow-b: rgba(219, 57, 150, 0.24);
-      --code-bg: rgba(3, 14, 22, 0.78);
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #06141d;
-    --ink: #eaf7fc;
-    --ink-soft: #a6c5d4;
-    --pink-ink: #ff7ac2;
-    --glass: rgba(14, 40, 56, 0.5);
-    --glass-edge: rgba(150, 215, 240, 0.22);
-    --glass-shadow: rgba(0, 0, 0, 0.55);
-    --blob-opacity: 0.4;
-    --glow-a: rgba(143, 220, 245, 0.34);
-    --glow-b: rgba(219, 57, 150, 0.24);
-    --code-bg: rgba(3, 14, 22, 0.78);
-    color-scheme: dark;
-  }
 
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   html { scroll-behavior: smooth; }
   body {
+    margin: 0;
     background: var(--bg);
     color: var(--ink);
     font-family: var(--font-body);
     font-size: 17px;
-    line-height: 1.55;
+    line-height: 1.6;
+    min-height: 100vh;
     padding-left: max(16px, env(safe-area-inset-left, 0px));
     padding-right: max(16px, env(safe-area-inset-right, 0px));
-    padding-block: 20px 40px;
+    padding-block: 96px 48px;
     overflow-x: hidden;
   }
 
-  /* Фон */
-  .backdrop { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-  .blob {
-    position: absolute; border-radius: 50%;
-    filter: blur(80px); opacity: var(--blob-opacity);
-    animation: drift 22s ease-in-out infinite alternate;
-  }
-  .blob.sky   { width: 62vmax; height: 62vmax; left: -22vmax; top: -18vmax; background: var(--blob-sky); }
-  .blob.pink  { width: 52vmax; height: 52vmax; right: -18vmax; top: 18vh; background: var(--blob-pink); animation-delay: -7s; }
-  .blob.light { width: 46vmax; height: 46vmax; left: 20vw; bottom: -26vmax; background: var(--blob-light); animation-delay: -13s; }
-  @keyframes drift {
-    from { transform: translate3d(0, 0, 0) scale(1); }
-    to   { transform: translate3d(4vmax, 3vmax, 0) scale(1.08); }
+  /* Мягкая подсветка по углам на белом */
+  .wash {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(60vmax 44vmax at 0% 0%, rgba(5, 147, 198, 0.16), transparent 62%),
+      radial-gradient(52vmax 40vmax at 100% 28%, rgba(219, 57, 150, 0.12), transparent 62%),
+      radial-gradient(64vmax 40vmax at 25% 100%, rgba(106, 122, 230, 0.11), transparent 62%);
   }
 
-  .page { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; display: grid; gap: 72px; }
+  .page { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
 
-  .glass {
-    background: var(--glass);
-    -webkit-backdrop-filter: blur(22px) saturate(150%);
-    backdrop-filter: blur(22px) saturate(150%);
-    border: 1px solid var(--glass-edge);
+  /* ---------- Плашка Discord ---------- */
+  .dc {
+    position: fixed; z-index: 30;
+    top: max(12px, env(safe-area-inset-top, 0px));
+    right: max(12px, env(safe-area-inset-right, 0px));
+    display: flex; align-items: center; gap: 10px;
+    max-width: calc(100vw - 24px);
+    padding: 6px 18px 6px 6px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid var(--card-edge);
+    box-shadow: 0 12px 30px -14px var(--card-shadow);
+    color: var(--ink); text-decoration: none;
+    --dot: #80848e;
+  }
+  .dc[data-status="online"]  { --dot: #23a55a; }
+  .dc[data-status="idle"]    { --dot: #f0b232; }
+  .dc[data-status="dnd"]     { --dot: #f23f43; }
+  .dc[href] { transition: transform .3s cubic-bezier(.34, 1.56, .64, 1); }
+  .dc[href]:hover { transform: translateY(-2px) scale(1.02); }
+  .dc-avatar { position: relative; width: 42px; height: 42px; flex: none; }
+  .dc-avatar img, .dc-fallback { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+  .dc-fallback {
+    display: grid; place-items: center; color: #fff;
+    font-family: var(--font-display); font-weight: 800; font-size: 19px;
+    background: linear-gradient(135deg, var(--sky), var(--pink));
+  }
+  .dc-dot {
+    position: absolute; right: -3px; bottom: -3px; width: 15px; height: 15px; border-radius: 50%;
+    background: var(--dot); border: 3px solid #fff;
+  }
+  .dc-text { display: grid; min-width: 0; line-height: 1.25; }
+  .dc-name { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px; }
+  .dc-status { font-size: 12.5px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 210px; }
+
+  /* ---------- Шапка ---------- */
+  .intro { padding: 8px 4px 14px; }
+  .chip {
+    display: inline-block; font-family: var(--font-mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--pink-ink); padding: 4px 14px; border-radius: 999px; border: 1px solid currentColor; margin-bottom: 14px;
+  }
+  h1 {
+    margin: 0; font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(3.6rem, 16vw, 7.4rem); line-height: 1; letter-spacing: -0.045em;
+    background: linear-gradient(95deg, var(--sky) 0%, var(--violet) 52%, var(--pink) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+    padding-bottom: .06em;
+  }
+  .role {
+    margin: 10px 0 0; font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(1.25rem, 4vw, 1.7rem); letter-spacing: -0.01em; color: var(--ink-soft);
+  }
+
+  /* ---------- Карточки ---------- */
+  .card {
+    background: var(--card);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid var(--card-edge);
     border-radius: 26px;
-    box-shadow: 0 24px 50px -24px var(--glass-shadow);
+    box-shadow: 0 24px 50px -28px var(--card-shadow);
+    padding: 28px 30px 30px;
+    min-width: 0;
+  }
+  h2 {
+    margin: 0 0 16px; font-family: var(--font-display); font-weight: 700;
+    font-size: 1.35rem; letter-spacing: -0.015em;
+  }
+  .bio p { margin: 0 0 14px; max-width: 64ch; text-wrap: pretty; }
+  .bio p:last-child { margin-bottom: 0; }
+  .bio .first { font-size: 1.22rem; font-weight: 500; line-height: 1.5; }
+
+  .duo { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 18px; }
+
+  /* Код-визитка */
+  .code { padding: 0; overflow: hidden; background: var(--code-bg); }
+  .code-head {
+    display: flex; justify-content: space-between; gap: 12px; padding: 14px 20px;
+    font-family: var(--font-mono); font-size: 13px; color: var(--code-dim);
+    border-bottom: 1px solid var(--card-edge);
+  }
+  .code-head b { font-weight: 500; color: var(--ink); }
+  .code pre {
+    margin: 0; padding: 18px 20px 22px; overflow-x: auto;
+    font-family: var(--font-mono); font-size: 14.5px; line-height: 1.85; color: var(--ink);
+  }
+  .c-dim { color: var(--code-dim); }
+  .c-key { color: var(--pink-ink); }
+  .c-str { color: var(--sky-ink); }
+
+  /* Сейчас */
+  .now dl { margin: 0; display: grid; gap: 18px; }
+  .now dt { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+  .now dd { margin: 2px 0 0; font-weight: 500; font-size: 1.08rem; line-height: 1.4; }
+  .big {
+    display: block; font-family: var(--font-display); font-weight: 800; letter-spacing: -0.03em;
+    font-size: clamp(2rem, 7vw, 2.7rem); line-height: 1.05; color: var(--pink-ink); margin-bottom: 2px;
   }
 
-  /* Наклон и свечение под курсором (значения --rx, --ry, --mx, --my ставит скрипт внизу) */
+  /* Навыки */
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .chips li {
+    padding: 9px 18px; border-radius: 999px; font-weight: 500; font-size: 15.5px; line-height: 1.3;
+    background: rgba(255, 255, 255, 0.85); border: 1px solid var(--card-edge);
+  }
+  .chips li:nth-child(3n+1) { border-color: rgba(5, 147, 198, 0.4); }
+  .chips li:nth-child(3n+2) { border-color: rgba(106, 122, 230, 0.45); }
+  .chips li:nth-child(3n)   { border-color: rgba(219, 57, 150, 0.4); }
+
+  footer { text-align: center; padding-top: 18px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); }
+
+  /* ---------- Наклон и свечение под курсором ---------- */
   .tilt {
     position: relative;
     --rx: 0deg; --ry: 0deg; --lift: 0px; --mx: 50%; --my: 50%;
@@ -120,244 +187,211 @@
   .tilt:hover { --lift: -4px; transition: transform .12s ease-out; }
   .tilt::after {
     content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-    background: radial-gradient(280px circle at var(--mx) var(--my), var(--glow-a), var(--glow-b) 42%, transparent 72%);
+    background: radial-gradient(300px circle at var(--mx) var(--my), var(--glow-a), var(--glow-b) 45%, transparent 72%);
     opacity: 0; transition: opacity .35s ease;
   }
   .tilt:hover::after { opacity: 1; }
 
-  /* Навигация */
-  .nav { justify-self: center; display: flex; gap: 4px; padding: 6px; border-radius: 999px; max-width: 100%; }
-  .nav a {
-    color: var(--ink); text-decoration: none; font-weight: 500; font-size: 15px;
-    padding: 9px 18px; border-radius: 999px; white-space: nowrap;
-    transition: background-color .25s ease, color .25s ease;
-  }
-  .nav a:hover { background: rgba(255, 255, 255, 0.5); }
-  .nav a.current { background: var(--pink); color: #fff; }
-  a:focus-visible, button:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
-
-  /* Герой */
-  .hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: center; }
-  .handle {
-    display: inline-block; font-family: var(--font-mono); font-size: 14px; letter-spacing: .04em;
-    padding: 6px 14px; border-radius: 999px; margin-bottom: 22px;
-  }
-  h1 {
-    font-family: var(--font-display); font-weight: 700; margin: 0 0 24px;
-    font-size: clamp(2.6rem, 9.5vw, 5.6rem); line-height: .98; letter-spacing: -0.03em;
-    text-wrap: balance;
-  }
-  h1 span {
-    display: block;
-    background: linear-gradient(100deg, var(--sky) 0%, var(--pink) 85%);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent; color: transparent;
-  }
-  .lead { max-width: 46ch; color: var(--ink-soft); font-size: 1.1rem; margin: 0 0 30px; }
-  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-  .btn {
-    display: inline-block; text-decoration: none; font-weight: 600; font-size: 16px;
-    padding: 14px 26px; border-radius: 999px;
-    transition: transform .3s cubic-bezier(.34, 1.56, .64, 1), box-shadow .3s ease;
-  }
-  .btn:hover { transform: translateY(-2px) scale(1.03); }
-  .btn.primary { background: var(--pink); color: #fff; box-shadow: 0 12px 28px -10px var(--pink); }
-  .btn.ghost { color: var(--ink); }
-
-  /* Окно кода */
-  .code { padding: 0; overflow: hidden; background: var(--code-bg); border-color: rgba(255, 255, 255, 0.18); }
-  .code-head {
-    display: flex; justify-content: space-between; align-items: center; gap: 12px;
-    padding: 14px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--code-dim);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  }
-  .code-head b { font-weight: 500; color: var(--code-ink); }
-  .code pre {
-    margin: 0; padding: 22px 20px 26px; overflow-x: auto;
-    font-family: var(--font-mono); font-size: 15px; line-height: 1.8; color: var(--code-ink);
-  }
-  .c-dim { color: var(--code-dim); }
-  .c-key { color: var(--code-key); }
-  .c-str { color: var(--code-str); }
-
-  /* Секции */
-  section { scroll-margin-top: 24px; }
-  h2 {
-    font-family: var(--font-display); font-weight: 500; margin: 0 0 26px;
-    font-size: clamp(1.6rem, 4.5vw, 2.3rem); letter-spacing: -0.02em; text-wrap: balance;
-  }
-
-  /* Биография */
-  .bio { padding: 34px 32px 38px; }
-  .bio h2 { margin-bottom: 20px; }
-  .bio p { margin: 0 0 16px; max-width: 68ch; font-size: 1.08rem; color: var(--ink); text-wrap: pretty; }
-  .bio p:last-child { margin-bottom: 0; }
-  .bio .first { font-size: 1.3rem; font-weight: 500; }
-
-  /* Навыки */
-  .skills { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
-  .skill { grid-column: span 2; padding: 26px 24px 28px; display: flex; flex-direction: column; gap: 22px; min-width: 0; }
-  .skill:nth-child(n+4) { grid-column: span 3; }
-  .tag {
-    align-self: flex-start; font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .08em;
-    text-transform: uppercase; color: var(--pink-ink);
-    padding: 4px 12px; border-radius: 999px; border: 1px solid currentColor;
-  }
-  .skill p { margin: 0; font-size: 1.15rem; font-weight: 500; line-height: 1.35; text-wrap: balance; }
-
-  /* Опыт и обучение */
-  .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  .info { padding: 30px 28px 32px; min-width: 0; }
-  .info h2 { font-size: 1.35rem; margin-bottom: 18px; }
-  .big {
-    font-family: var(--font-display); font-weight: 700; margin: 0 0 6px;
-    font-size: clamp(2rem, 6vw, 3rem); line-height: 1.05; letter-spacing: -0.03em; color: var(--pink-ink);
-  }
-  .info p { margin: 0; color: var(--ink-soft); }
-  .info .main { color: var(--ink); font-size: 1.2rem; font-weight: 500; }
-
-  footer { text-align: center; font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); }
-
   /* Появление */
   @keyframes rise { from { transform: translateY(14px); } to { transform: none; } }
-  .hero > *, .bio, .skill, .info { animation: rise .7s cubic-bezier(.22, 1, .36, 1) backwards; }
-  .hero > :nth-child(2) { animation-delay: .1s; }
-  .skill:nth-child(2) { animation-delay: .06s; } .skill:nth-child(3) { animation-delay: .12s; }
-  .skill:nth-child(4) { animation-delay: .18s; } .skill:nth-child(5) { animation-delay: .24s; }
+  .intro, .page > .card, .duo > .card { animation: rise .7s cubic-bezier(.22, 1, .36, 1) backwards; }
+  .page > :nth-child(2) { animation-delay: .06s; }
+  .duo > :nth-child(1) { animation-delay: .12s; }
+  .duo > :nth-child(2) { animation-delay: .18s; }
+  .page > :nth-child(4) { animation-delay: .24s; }
 
-  @media (max-width: 820px) {
-    .page { gap: 56px; }
-    .hero { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-    .skills { grid-template-columns: minmax(0, 1fr); }
-    .skill, .skill:nth-child(n+4) { grid-column: auto; }
-    .pair { grid-template-columns: minmax(0, 1fr); }
+  a:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
+
+  @media (max-width: 720px) {
+    body { padding-block: 88px 40px; }
+    .duo { grid-template-columns: minmax(0, 1fr); }
+    .card { padding: 24px 22px 26px; }
   }
   @media (max-width: 420px) {
     body { font-size: 16px; }
-    .nav a { padding: 8px 12px; font-size: 14px; }
+    .dc-name { display: none; }
+    .dc-status { max-width: 150px; font-size: 13px; color: var(--ink); }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .blob, .hero > *, .bio, .skill, .info { animation: none; }
-    .btn { transition: none; }
+    .intro, .page > .card, .duo > .card { animation: none; }
     .tilt, .tilt:hover { --lift: 0px; transition: none; }
+    .dc[href] { transition: none; }
   }
 </style>
 </head>
 <body>
 
-<div class="backdrop" aria-hidden="true">
-  <div class="blob sky"></div>
-  <div class="blob pink"></div>
-  <div class="blob light"></div>
-</div>
+<div class="wash" aria-hidden="true"></div>
 
-<div class="page">
-  <nav class="nav glass" aria-label="Разделы">
-    <a href="#top" class="current">Главная</a>
-    <a href="#bio">Биография</a>
-    <a href="#skills">Навыки</a>
-    <a href="#experience">Опыт</a>
-    <a href="#education">Обучение</a>
-  </nav>
+<a class="dc" id="dc" data-status="offline" aria-label="Статус в Discord">
+  <span class="dc-avatar">
+    <span class="dc-fallback" id="dc-fallback">Y</span>
+    <img id="dc-img" alt="" width="42" height="42" hidden>
+    <span class="dc-dot"></span>
+  </span>
+  <span class="dc-text">
+    <span class="dc-name" id="dc-name">yagatan</span>
+    <span class="dc-status" id="dc-status">Discord не подключён</span>
+  </span>
+</a>
 
-  <header class="hero" id="top">
-    <div>
-      <span class="handle glass">yagatan</span>
-      <h1>Vibe <span>Coder</span></h1>
-      <p class="lead">Учу Python и пишу код вместе с ИИ-инструментами. Коммерческого опыта пока нет, зато есть готовность учиться и осваивать новые технологии.</p>
-      <div class="actions">
-        <a class="btn primary" href="#skills">Мои навыки</a>
-        <a class="btn ghost glass" href="#education">Что изучаю</a>
-      </div>
-    </div>
-
-    <div class="glass tilt code" data-tilt="6" role="img" aria-label="Пример кода на Python: цикл обучения">
-      <div class="code-head"><b>yagatan.py</b><span>python · месяц 1</span></div>
-<pre><span class="c-dim"># вайб-кодинг: я думаю, ИИ помогает</span>
-<span class="c-key">skills</span> = [
-    <span class="c-str">"python"</span>,
-    <span class="c-str">"вайб-кодинг"</span>,
-    <span class="c-str">"поиск решений"</span>,
-]
-
-<span class="c-key">while</span> True:
-    learn(skills)</pre>
-    </div>
+<main class="page">
+  <header class="intro">
+    <span class="chip">bio</span>
+    <h1>yagatan</h1>
+    <p class="role">Vibe Coder · Грузия</p>
   </header>
 
-  <section class="glass tilt bio" id="bio" data-tilt="2.5">
-    <h2>Биография</h2>
+  <section class="card tilt bio" data-tilt="2.5">
+    <h2>Обо мне</h2>
     <p class="first">Я родом из Грузии. Интересуюсь программированием и современными технологиями. В течение месяца изучал Python и получил базовое представление о языке, логике программ и процессе разработки.</p>
     <p>Мне нравится находить неординарные решения и смотреть на задачи с разных сторон. В работе ценю свободу мышления, эксперименты и возможность создавать что-то новое с помощью кода и ИИ-инструментов.</p>
     <p>В свободное время люблю природу: она помогает мне отдыхать, находить вдохновение и новые идеи. Сейчас я продолжаю развиваться в программировании, изучать новые технологии и набираться практического опыта.</p>
   </section>
 
-  <section id="skills">
-    <h2>Навыки</h2>
-    <div class="skills">
-      <article class="glass tilt skill"><span class="tag">python</span><p>Базовые знания Python</p></article>
-      <article class="glass tilt skill"><span class="tag">ai</span><p>Вайб-кодинг и работа с ИИ-инструментами</p></article>
-      <article class="glass tilt skill"><span class="tag">search</span><p>Поиск информации и решений</p></article>
-      <article class="glass tilt skill"><span class="tag">logic</span><p>Базовое понимание логики программ</p></article>
-      <article class="glass tilt skill"><span class="tag">growth</span><p>Готовность учиться и осваивать новые технологии</p></article>
-    </div>
-  </section>
+  <div class="duo">
+    <div class="card tilt code" data-tilt="6" role="img" aria-label="Визитка в виде кода на Python">
+      <div class="code-head"><b>bio.py</b><span>python</span></div>
+<pre><span class="c-key">bio</span> = {
+    <span class="c-str">"name"</span>: <span class="c-str">"yagatan"</span>,
+    <span class="c-str">"role"</span>: <span class="c-str">"Vibe Coder"</span>,
+    <span class="c-str">"from"</span>: <span class="c-str">"Грузия"</span>,
+    <span class="c-str">"learning"</span>: <span class="c-str">"Python"</span>,
+}
 
-  <div class="pair">
-    <section class="glass tilt info" id="experience">
-      <h2>Опыт</h2>
-      <p class="main">Коммерческого опыта пока нет.</p>
-    </section>
-    <section class="glass tilt info" id="education">
-      <h2>Обучение</h2>
-      <p class="big">1 месяц</p>
-      <p class="main">Самостоятельное изучение Python</p>
+<span class="c-dim"># вайб-кодинг</span></pre>
+    </div>
+
+    <section class="card tilt now" data-tilt="6">
+      <h2>Сейчас</h2>
+      <dl>
+        <div>
+          <dt>Обучение</dt>
+          <dd><span class="big">1 месяц</span>Самостоятельное изучение Python</dd>
+        </div>
+        <div>
+          <dt>Опыт</dt>
+          <dd>Коммерческого опыта пока нет.</dd>
+        </div>
+      </dl>
     </section>
   </div>
 
+  <section class="card tilt" data-tilt="3">
+    <h2>Навыки</h2>
+    <ul class="chips">
+      <li>Базовые знания Python</li>
+      <li>Вайб-кодинг и работа с ИИ-инструментами</li>
+      <li>Поиск информации и решений</li>
+      <li>Базовое понимание логики программ</li>
+      <li>Готовность учиться и осваивать новые технологии</li>
+    </ul>
+  </section>
+
   <footer>yagatan · vibe coder</footer>
-</div>
+</main>
 
 <script>
-  /* Наклон карточек и свечение под курсором (только для мыши) */
+  /* ---------- Discord: аватар и статус через Lanyard ----------
+     1. В Discord включи режим разработчика (Настройки > Расширенные), ПКМ по себе > Копировать ID пользователя.
+     2. Зайди на сервер Lanyard: https://discord.gg/lanyard (он отдаёт публичный статус по ID).
+     3. Вставь ID ниже. Пока он пустой, плашка показывает заглушку. */
   (function () {
-    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.querySelectorAll('.tilt').forEach(function (el) {
-      var max = parseFloat(el.getAttribute('data-tilt')) || 8;
-      el.addEventListener('pointermove', function (e) {
-        if (e.pointerType && e.pointerType !== 'mouse') return;
-        var r = el.getBoundingClientRect();
-        var x = (e.clientX - r.left) / r.width;
-        var y = (e.clientY - r.top) / r.height;
-        el.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
-        el.style.setProperty('--my', (y * 100).toFixed(1) + '%');
-        if (reduce) return;
-        el.style.setProperty('--ry', ((x - 0.5) * 2 * max).toFixed(2) + 'deg');
-        el.style.setProperty('--rx', ((0.5 - y) * 2 * max).toFixed(2) + 'deg');
-      });
-      el.addEventListener('pointerleave', function () {
-        el.style.setProperty('--rx', '0deg');
-        el.style.setProperty('--ry', '0deg');
-      });
-    });
+    var DISCORD_ID = "";
+
+    var LABELS = { online: "В сети", idle: "Не активен", dnd: "Не беспокоить", offline: "Не в сети" };
+    var el = document.getElementById("dc");
+    var img = document.getElementById("dc-img");
+    var fallback = document.getElementById("dc-fallback");
+    var nameEl = document.getElementById("dc-name");
+    var statusEl = document.getElementById("dc-status");
+
+    function setStatus(status, text) {
+      el.setAttribute("data-status", status);
+      statusEl.textContent = text;
+    }
+
+    function avatarUrl(user) {
+      if (!user || !user.id || !user.avatar) return "";
+      var ext = user.avatar.indexOf("a_") === 0 ? "gif" : "png";
+      return "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + "." + ext + "?size=128";
+    }
+
+    function activityLine(data) {
+      var acts = data.activities || [];
+      var i;
+      for (i = 0; i < acts.length; i++) {
+        if (acts[i].type === 4 && acts[i].state) {
+          var emoji = acts[i].emoji && acts[i].emoji.name && !acts[i].emoji.id ? acts[i].emoji.name + " " : "";
+          return emoji + acts[i].state;
+        }
+      }
+      for (i = 0; i < acts.length; i++) {
+        if (acts[i].type === 0 && acts[i].name) return "Играет: " + acts[i].name;
+      }
+      if (data.listening_to_spotify && data.spotify && data.spotify.song) return "Слушает: " + data.spotify.song;
+      return "";
+    }
+
+    function render(data) {
+      var user = data.discord_user || {};
+      var shownName = user.global_name || user.username || "yagatan";
+      nameEl.textContent = shownName;
+      fallback.textContent = shownName.charAt(0).toUpperCase() || "Y";
+
+      var url = avatarUrl(user);
+      if (url && img.getAttribute("src") !== url) {
+        img.onload = function () { img.hidden = false; fallback.hidden = true; };
+        img.onerror = function () { img.hidden = true; fallback.hidden = false; };
+        img.src = url;
+      }
+
+      var status = LABELS[data.discord_status] ? data.discord_status : "offline";
+      var line = activityLine(data);
+      setStatus(status, line ? LABELS[status] + " · " + line : LABELS[status]);
+    }
+
+    function load() {
+      fetch("https://api.lanyard.rest/v1/users/" + DISCORD_ID)
+        .then(function (r) { return r.json(); })
+        .then(function (json) {
+          if (!json || !json.success) throw new Error("lanyard");
+          render(json.data);
+        })
+        .catch(function () { setStatus("offline", "Статус недоступен"); });
+    }
+
+    if (DISCORD_ID) {
+      el.href = "https://discord.com/users/" + DISCORD_ID;
+      el.target = "_blank";
+      el.rel = "noopener";
+      setStatus("offline", "Загрузка…");
+      load();
+      setInterval(load, 30000);
+    }
   })();
 
-  /* Подсветка текущего раздела в навигации */
+  /* ---------- Наклон карточек и свечение под курсором (только мышь) ---------- */
   (function () {
-    var links = document.querySelectorAll('.nav a');
-    var map = {};
-    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
-    if (!('IntersectionObserver' in window)) return;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        links.forEach(function (a) { a.classList.remove('current'); });
-        if (map[e.target.id]) map[e.target.id].classList.add('current');
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.querySelectorAll(".tilt").forEach(function (card) {
+      var max = parseFloat(card.getAttribute("data-tilt")) || 8;
+      card.addEventListener("pointermove", function (e) {
+        if (e.pointerType && e.pointerType !== "mouse") return;
+        var r = card.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width;
+        var y = (e.clientY - r.top) / r.height;
+        card.style.setProperty("--mx", (x * 100).toFixed(1) + "%");
+        card.style.setProperty("--my", (y * 100).toFixed(1) + "%");
+        if (reduce) return;
+        card.style.setProperty("--ry", ((x - 0.5) * 2 * max).toFixed(2) + "deg");
+        card.style.setProperty("--rx", ((0.5 - y) * 2 * max).toFixed(2) + "deg");
       });
-    }, { rootMargin: '-35% 0px -55% 0px' });
-    ['top', 'bio', 'skills', 'experience', 'education'].forEach(function (id) {
-      var el = document.getElementById(id); if (el) io.observe(el);
+      card.addEventListener("pointerleave", function () {
+        card.style.setProperty("--rx", "0deg");
+        card.style.setProperty("--ry", "0deg");
+      });
     });
   })();
 </script>
